@@ -38,7 +38,7 @@ public class ServiceHelper {
         return rsclient;
     }
 
-    public String ExecuteDelete(String url, HashMap<String, String> headers, String mediaType) {
+    public String executeDelete(String url, HashMap<String, String> headers, String mediaType) {
         
         Client rsclient = this.getClient();
         Builder build = rsclient.resource(url).getRequestBuilder();
@@ -56,8 +56,7 @@ public class ServiceHelper {
         try {
             clientResponse = build.delete(ClientResponse.class);
             if (clientResponse.getStatus() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + clientResponse.getStatus());
+                throw new RuntimeException("Failed : HTTP error code : " + clientResponse.getStatus());
             }
             response = clientResponse.getEntity(String.class);
             
@@ -67,7 +66,7 @@ public class ServiceHelper {
         return response;
     }
 
-    public String ExecuteGet(String url, HashMap<String, String> queryParams, HashMap<String, String> headers, String mediaType) {
+    public String executeGet(String url, HashMap<String, String> queryParams, HashMap<String, String> headers, String mediaType) {
 
         Client rsclient = this.getClient();
         WebResource webResource = null;
@@ -93,8 +92,7 @@ public class ServiceHelper {
         try {
             clientResponse = build.get(ClientResponse.class);
             if (clientResponse.getStatus() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + clientResponse.getStatus());
+                throw new RuntimeException("Failed : HTTP error code : " + clientResponse.getStatus());
             }
             response = clientResponse.getEntity(String.class);
             
@@ -104,7 +102,7 @@ public class ServiceHelper {
         return response;
     }
 
-    public String ExecutePost(String url, HashMap<String, String> headers, MediaType mediaType, FormDataMultiPart formData) {
+    public String executePost(String url, HashMap<String, String> headers, MediaType mediaType, FormDataMultiPart formData) {
 
         Client rsclient = this.getClient();
         Builder build = rsclient.resource(url).getRequestBuilder();
@@ -122,8 +120,7 @@ public class ServiceHelper {
         try {
             clientResponse = build.post(ClientResponse.class, formData);
             if (clientResponse.getStatus() != 200 && clientResponse.getStatus() != 201) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + clientResponse.getStatus());
+                throw new RuntimeException("Failed : HTTP error code : " + clientResponse.getStatus());
             }
             response = clientResponse.getEntity(String.class);
             
@@ -133,7 +130,7 @@ public class ServiceHelper {
         return response;
     }
 
-    public String ExecutePost(String url, HashMap<String, String> headers, String mediaType, String entity) {
+    public String executePost(String url, HashMap<String, String> headers, String mediaType, String entity) {
 
         Client rsclient = this.getClient();
         WebResource webResource = rsclient.resource(url);
@@ -151,8 +148,7 @@ public class ServiceHelper {
         try {
             clientResponse = build.post(ClientResponse.class, entity);
             if (clientResponse.getStatus() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + clientResponse.getStatus());
+                throw new RuntimeException("Failed : HTTP error code : " + clientResponse.getStatus());
             }
             response = clientResponse.getEntity(String.class);
             
@@ -162,7 +158,7 @@ public class ServiceHelper {
         return response;
     }
 
-    public String ExecutePut(String url, HashMap<String, String> headers, String mediaType, String entity) {
+    public String executePut(String url, HashMap<String, String> headers, String mediaType, String entity) {
         
         Client rsclient = this.getClient();
         Builder build = rsclient.resource(url).getRequestBuilder();
@@ -180,8 +176,7 @@ public class ServiceHelper {
         try {
             clientResponse = build.put(ClientResponse.class, entity);
             if (clientResponse.getStatus() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + clientResponse.getStatus());
+                throw new RuntimeException("Failed : HTTP error code : " + clientResponse.getStatus());
             }
             response = clientResponse.getEntity(String.class);
             

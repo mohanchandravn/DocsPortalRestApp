@@ -15,31 +15,34 @@ import com.sun.jersey.core.util.Base64;
  * @author nithinn
  */
 public abstract class DocumentService {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
+
     // From Environment Variable
     public static final Optional<String> DOCUMENT_CLOUD_SERVICE_USER = Optional.ofNullable(System.getenv("DOCUMENT_CLOUD_SERVICE_USER"));
     public static final Optional<String> DOCUMENT_CLOUD_SERVICE_PWD = Optional.ofNullable(System.getenv("DBAAS_USER_PASSWORD"));
     public static final Optional<String> DOCUMENT_CLOUD_SERVICE_URL = Optional.ofNullable(System.getenv("DOCUMENT_CLOUD_SERVICE_URL"));
 
-    //Local settings        
+    // Local settings        
     public static final String LOCAL_DOCUMENT_CLOUD_SERVICE_USER = "cloud.admin";
     public static final String LOCAL_DOCUMENT_CLOUD_SERVICE_PWD = "extra@4CraWleR";
     public static final String LOCAL_DOCUMENT_CLOUD_SERVICE_URL = "https://documents-usoracleam82569.documents.us2.oraclecloud.com/documents/api/1.1";
-    
-    protected String DCS_URL = null;
-    protected String authorization;
+
     protected final static String DCS_PUBLIC_LINK_URL = "/publiclinks/file/";
     protected final static String DCS_FILE_URL = "/files";
     protected final static String DCS_FOLDER_URL = "/folders/";
     protected final static String DCS_APPLINK_URL = "/applinks";
-    
+
+    private String dcsUrl = null;
+    protected String authorization = null;
+
     public DocumentService() {
         try {
+            this.setDcsUrl(DOCUMENT_CLOUD_SERVICE_URL.orElse(LOCAL_DOCUMENT_CLOUD_SERVICE_URL));
             this.setAuthorization(DOCUMENT_CLOUD_SERVICE_USER.orElse(LOCAL_DOCUMENT_CLOUD_SERVICE_USER) + ":" + DOCUMENT_CLOUD_SERVICE_PWD.orElse(LOCAL_DOCUMENT_CLOUD_SERVICE_PWD));
-            this.setDCS_URL(DOCUMENT_CLOUD_SERVICE_URL.orElse(LOCAL_DOCUMENT_CLOUD_SERVICE_URL));
+
         } catch (Exception exp) {
-            logger.error("exp:" + exp.getMessage());
+            logger.error("exp: " + exp.getMessage());
         }
     }
 
@@ -54,21 +57,21 @@ public abstract class DocumentService {
      * @param authorization the authorization to set
      */
     public void setAuthorization(String authorization) {
-        this.authorization = "Basic " + new String(Base64.encode(authorization));;//"cloud.admin:extra@4CraWleR"
+        this.authorization = "Basic " + new String(Base64.encode(authorization)); // "cloud.admin:extra@4CraWleR"
     }
 
     /**
-     * @return the DCS_URL
+     * @return the dcsUrl
      */
-    public String getDCS_URL() {
-        return DCS_URL;
+    public String getDcsUrl() {
+        return dcsUrl;
     }
 
     /**
-     * @param DCS_URL the DCS_URL to set
+     * @param dcsUrl the dcsUrl to set
      */
-    public void setDCS_URL(String DCS_URL) {
-        this.DCS_URL = DCS_URL;
+    public void setDcsUrl(String dcsUrl) {
+        this.dcsUrl = dcsUrl;
     }
-    
+
 }

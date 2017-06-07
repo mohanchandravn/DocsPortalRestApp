@@ -17,6 +17,8 @@ import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,21 +26,26 @@ import com.sun.jersey.multipart.file.FileDataBodyPart;
  */
 public class DCSFileService extends DocumentService {
 
-    public void fileUpload() {
+    private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
+
+    public void uploadFile() {
         
-        String docsURL = "<DOCS Instance URL>/documents/api/1.1/files/data";
+        // String docsURL = "<DOCS Instance URL>/documents/api/1.1/files/data";
+        String docsURL = getDcsUrl() + DCS_FILE_URL + "files/data";
         ServiceHelper oServicesHelper = new ServiceHelper();
 
         try {
             File fileToUpload = new File("<File PATH>");
-            String authenticatedString = ""; // TODO Authenticate.authenticate("<username>", "<password>");
+            // String authenticatedString = Authenticate.authenticate("<username>", "<password>");
+            String authenticatedString = getAuthorization();
 
             HashMap<String, String> headers = new HashMap<String, String >();
-            headers.put("Authorization", "Basic " + authenticatedString);
+            // headers.put("Authorization", "Basic " + authenticatedString);
+            headers.put("Authorization", authenticatedString);
 
             String jsonInput = "{"
-                    + "\"parentID\":\"<FOLDER ID>\""
-                    + "}";
+                               + "\"parentID\":\"<FOLDER ID>\""
+                               + "}";
 
             FormDataMultiPart formData = new FormDataMultiPart();
             BodyPart stringDataBodyPart = new BodyPart(jsonInput, MediaType.APPLICATION_JSON_TYPE);
@@ -52,7 +59,7 @@ public class DCSFileService extends DocumentService {
 
             formData.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
 
-            String responseString = oServicesHelper.ExecutePost(docsURL, headers, MediaType.MULTIPART_FORM_DATA_TYPE, formData);
+            String responseString = oServicesHelper.executePost(docsURL, headers, MediaType.MULTIPART_FORM_DATA_TYPE, formData);
 
             System.out.println("Output:" + responseString);
             
