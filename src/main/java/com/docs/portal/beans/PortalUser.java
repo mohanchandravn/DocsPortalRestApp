@@ -22,7 +22,7 @@ public class PortalUser {
     private boolean active;
     private Timestamp pwdLastChanged;
     private Timestamp lastLoggedIn;
-    private String registryId;
+    private String companyName;
     private String phone;
 
     public PortalUser() {
@@ -101,12 +101,12 @@ public class PortalUser {
         return lastLoggedIn;
     }
 
-    public void setRegistryId(String registryId) {
-        this.registryId = registryId;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public String getRegistryId() {
-        return registryId;
+    public String getCompanyName() {
+        return companyName;
     }
 
     public void setPhone(String phone) {

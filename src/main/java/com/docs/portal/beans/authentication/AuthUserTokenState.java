@@ -24,6 +24,7 @@ public class AuthUserTokenState {
     private boolean firstLogin;
     private boolean changePwd;
     private String portalRole;
+    private String companyName;
 
     public void setAccess_token(String access_token) {
         this.access_token = access_token;
@@ -112,5 +113,19 @@ public class AuthUserTokenState {
 
     public String getPortalRole() {
         return portalRole;
+    }
+
+    /**
+     * @return the companyName
+     */
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    /**
+     * @param companyName the companyName to set
+     */
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

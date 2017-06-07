@@ -9,11 +9,13 @@ package com.docs.portal;
  *
  * @author mohchand
  */
+import com.docs.portal.beans.authentication.AuthUser;
 import com.docs.portal.dao.EmployeeTemplateDao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,19 +23,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
     @Autowired
     EmployeeDbDAO edao;
-    
+
     @Autowired
     EmployeeTemplateDao etDao;
 
     // Get all employees
     @RequestMapping(method = RequestMethod.GET)
-    public Employee[] getAll() {
+    public Employee[] getAll(Authentication authentication) {
+        AuthUser user = (AuthUser) authentication.getPrincipal();
+        logger.info("For testing Company name of logged in user : " + user.getCompanyName());
         return etDao.getAllEmployees().toArray(new Employee[0]);
     }
 

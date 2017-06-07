@@ -31,7 +31,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-
     @Autowired
     private LoginService loginService;
 

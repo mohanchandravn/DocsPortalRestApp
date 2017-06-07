@@ -44,6 +44,7 @@ public class LoginServiceImpl implements LoginService {
             userTokenState.setFirstName(userDetails.getFirstName());
             userTokenState.setLastName(userDetails.getLastName());
             userTokenState.setPhone(userDetails.getPhone());
+            userTokenState.setCompanyName(userDetails.getCompanyName());
             if (StringUtils.isEmpty(userDetails.getLastLoggedIn())) {
                 userTokenState.setFirstLogin(false);
             }

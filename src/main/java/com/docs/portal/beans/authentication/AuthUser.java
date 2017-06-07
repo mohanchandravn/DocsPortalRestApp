@@ -24,6 +24,7 @@ public class AuthUser implements UserDetails {
     private String firstName;
     private String lastName;
     private String authority;
+    private String companyName;
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -96,6 +97,20 @@ public class AuthUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    /**
+     * @return the companyName
+     */
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    /**
+     * @param companyName the companyName to set
+     */
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
 }
