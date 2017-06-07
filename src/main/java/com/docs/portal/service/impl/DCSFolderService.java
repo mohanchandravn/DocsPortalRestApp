@@ -16,32 +16,33 @@ import com.docs.portal.util.ServiceHelper;
  * @author nithinn
  */
 public class DCSFolderService extends DocumentService {
-   
+
     public void createFolder() {
         // TODO
     }
-    
+
     public void searchFoldersOrFiles() {
-        
-        String docsURL = "<DOCS Instance URL>/documents/api/1.1/folders/search/items";
+
+//        String docsURL = "<DOCS Instance URL>/documents/api/1.1/folders/search/items";
+        String docsURL = DCS_URL + DCS_FOLDER_URL + "search/items";
         ServiceHelper oServicesHelper = new ServiceHelper();
         try {
-            String authenticatedString = ""; // TODO Authenticate.authenticate("<username>", "<password>");
+            String authenticatedString = getAuthorization(); // TODO Authenticate.authenticate("<username>", "<password>");
             HashMap<String, String> headers = new HashMap<String, String>();
-            headers.put("Authorization", "Basic " + authenticatedString);
-
+//            headers.put("Authorization", "Basic " + authenticatedString);
+            headers.put("Authorization", authenticatedString);
             HashMap<String, String> queryParams = new HashMap<String, String>();
             queryParams.put("querytext", "<CustomPropertyName>.<CustomPropertyField><CONTAINS>%60<SearchText>%60");
 
-            String responseString = oServicesHelper.ExecuteGet(docsURL,queryParams,headers, MediaType.APPLICATION_JSON);
+            String responseString = oServicesHelper.ExecuteGet(docsURL, queryParams, headers, MediaType.APPLICATION_JSON);
             System.out.println(responseString);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
     }
-    
+
     public void searchFoldersOrFilesByFolderId() {
         // TODO
     }

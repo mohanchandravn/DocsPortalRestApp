@@ -10,10 +10,14 @@ import com.docs.portal.beans.authentication.AuthUser;
 import com.docs.portal.dao.PortalUsersDAO;
 import com.docs.portal.util.SqlQueryConstantsUtil;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,6 +28,7 @@ public class PortalUsersDAOImpl implements PortalUsersDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(PortalUsersDAOImpl.class);
 
     @Override
     public AuthUser getUserDetailsForAuthentication(String userId) {
