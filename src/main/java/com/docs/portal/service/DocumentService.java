@@ -37,7 +37,7 @@ public abstract class DocumentService {
     public DocumentService() {
         try {
             this.setAuthorization(DOCUMENT_CLOUD_SERVICE_USER.orElse(LOCAL_DOCUMENT_CLOUD_SERVICE_USER) + ":" + DOCUMENT_CLOUD_SERVICE_PWD.orElse(LOCAL_DOCUMENT_CLOUD_SERVICE_PWD));
-            this.setDCS_URL(DOCUMENT_CLOUD_SERVICE_URL.orElse(LOCAL_DOCUMENT_CLOUD_SERVICE_USER));
+            this.setDCS_URL(DOCUMENT_CLOUD_SERVICE_URL.orElse(LOCAL_DOCUMENT_CLOUD_SERVICE_URL));
         } catch (Exception exp) {
             logger.error("exp:" + exp.getMessage());
         }
