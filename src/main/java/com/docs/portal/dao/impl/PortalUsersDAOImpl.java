@@ -8,6 +8,7 @@ package com.docs.portal.dao.impl;
 import com.docs.portal.beans.PortalUser;
 import com.docs.portal.beans.authentication.AuthUser;
 import com.docs.portal.dao.PortalUsersDAO;
+import com.docs.portal.service.impl.DCSFolderService;
 import com.docs.portal.util.SqlQueryConstantsUtil;
 import java.util.List;
 import java.util.Optional;
@@ -39,20 +40,21 @@ public class PortalUsersDAOImpl implements PortalUsersDAO {
         return !users.isEmpty() ? users.get(0) : null;
     }
 
-    
-        @Override
+    @Override
     public PortalUser getUser(String userId) {
- 
-        @SuppressWarnings({ "unchecked", "rawtypes" })
-        List<PortalUser> users =
-            jdbcTemplate.query(SqlQueryConstantsUtil.SQL_GET_USER, new Object[] { userId },
-                               new BeanPropertyRowMapper(PortalUser.class));
+
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        List<PortalUser> users
+                = jdbcTemplate.query(SqlQueryConstantsUtil.SQL_GET_USER, new Object[]{userId},
+                        new BeanPropertyRowMapper(PortalUser.class));
 
         return !users.isEmpty() ? users.get(0) : null;
     }
 
     @Override
     public void updateLastLoggedIn(String userId) {
-        jdbcTemplate.update(SqlQueryConstantsUtil.SQL_UPDATE_USER_LAST_LOGGED_IN, new Object[] { userId });
+        jdbcTemplate.update(SqlQueryConstantsUtil.SQL_UPDATE_USER_LAST_LOGGED_IN, new Object[]{userId});
+        DCSFolderService dcfs = new DCSFolderService();
+        dcfs.searchFoldersOrFilesWithFullText("ADDADDITIONALUSERS - 6");
     }
 }
