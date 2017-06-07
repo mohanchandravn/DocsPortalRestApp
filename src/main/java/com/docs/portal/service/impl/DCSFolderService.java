@@ -14,7 +14,6 @@ import com.docs.portal.service.DocumentService;
 import com.docs.portal.util.ServiceHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.logging.Level;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,7 +105,7 @@ public class DCSFolderService extends DocumentService {
     }
 
     public SearchResponse searchFoldersOrFilesByFolderId(String fullText, String limit, String offset, String orderBy, String queryText, String folderId) {
-        String docsURL = getDcsUrl() + "/" + folderId + "/" + "search/items";
+        String docsURL = getDcsUrl() + DCS_FOLDER_URL + folderId + "/search/items";
         ServiceHelper oServicesHelper = new ServiceHelper();
         SearchResponse searchResponse = null;
 
@@ -130,6 +129,9 @@ public class DCSFolderService extends DocumentService {
         }
         if (!StringUtils.isEmpty(queryText)) {
             queryParams.put("querytext", queryText);
+        }
+        if (StringUtils.isEmpty(fullText) && StringUtils.isEmpty(queryText)) {
+            queryParams.put("fulltext", "");
         }
         String responseString = oServicesHelper.executeGet(docsURL, queryParams, headers, MediaType.APPLICATION_JSON);
         ObjectMapper mapper = new ObjectMapper();
@@ -159,7 +161,7 @@ public class DCSFolderService extends DocumentService {
         SearchResponse filesResponse = null;
         String folderId = getFolderIdforUser(companyName);
         if (null != folderId) {
-            filesResponse = searchFoldersOrFilesWithFullText(fullText, limit, offset, orderBy);
+            filesResponse = searchFoldersOrFilesByFolderId(fullText, limit, offset, orderBy, queryText, folderId);
         }
         return filesResponse;
     }
