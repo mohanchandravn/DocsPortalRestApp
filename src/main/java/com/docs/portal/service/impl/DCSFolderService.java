@@ -19,21 +19,27 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 /**
  *
  * @author nithinn
  */
+@Service("folderService")
 public class DCSFolderService extends DocumentService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DCSFolderService.class);
 
     public FolderResponse createFolder(String companyName) {
+        return createFolder(companyName, "self");
+    }
+    
+    public FolderResponse createFolder(String companyName, String folderId) {
         
         FolderResponse folderResponse = null;
         
-        String docsURL = getDcsUrl() + DCS_FOLDER_URL + "<FOLDER_ID>";
+        String docsURL = getDcsUrl() + DCS_FOLDER_URL + folderId;
         ServiceHelper oServicesHelper = new ServiceHelper();
         
         String authenticatedString = getAuthorization();
@@ -41,7 +47,7 @@ public class DCSFolderService extends DocumentService {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Authorization", authenticatedString);
         
-        String jsonInput = "{ \"name\" : " + companyName + ",\"description\":\"<DESCRIPTION>\"}";
+        String jsonInput = "{ \"name\" : \"" + companyName + "\",\"description\":\"For customer: " + companyName + "\"}";
 
         String responseString = oServicesHelper.executePost(docsURL, headers, MediaType.APPLICATION_JSON_TYPE, jsonInput);
 
@@ -172,7 +178,7 @@ public class DCSFolderService extends DocumentService {
     public String getFolderIdforUser(String companyName) {
         String folderId = null;
         SearchResponse foldersResponse = searchFoldersOrFilesWithFullText(companyName);
-        if (null != foldersResponse & foldersResponse.getItems().size() > 0) {
+        if (null != foldersResponse && foldersResponse.getItems().size() > 0) {
             for (Item searchItem : foldersResponse.getItems()) {
                 if (searchItem.getType().equalsIgnoreCase("folder")) {
                     folderId = searchItem.getId();

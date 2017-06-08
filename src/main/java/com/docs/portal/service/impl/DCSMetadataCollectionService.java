@@ -13,15 +13,16 @@ import com.docs.portal.util.ServiceHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author nithinn
  */
+@Service("metadataCollectionService")
 public class DCSMetadataCollectionService extends DocumentService {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(DCSMetadataCollectionService.class);
@@ -54,11 +55,15 @@ public class DCSMetadataCollectionService extends DocumentService {
         return metadataCreateResponse;
     }
     
+    public FileCollectionResponse assignAMetadataCollectionToAFolder(String collectionName) {
+        return assignAMetadataCollectionToAFolder("self", collectionName);
+    }
+    
     public FileCollectionResponse assignAMetadataCollectionToAFolder(String folderId, String collectionName) {
         
         FileCollectionResponse fileCollectionResponse = null;
 
-        String docsURL = getDcsUrl() + DCS_FILE_URL + folderId + DCS_METADATA_URL + collectionName;
+        String docsURL = getDcsUrl() + DCS_FOLDER_URL + folderId + DCS_METADATA_URL + collectionName;
         ServiceHelper oServicesHelper = new ServiceHelper();
         
         String authenticatedString = getAuthorization();
@@ -84,7 +89,7 @@ public class DCSMetadataCollectionService extends DocumentService {
         
         FolderCollectionResponse folderCollectionResponse = null;
 
-        String docsURL = getDcsUrl() + DCS_FOLDER_URL + fileId + DCS_METADATA_URL + collectionName;
+        String docsURL = getDcsUrl() + DCS_FILE_URL + fileId + DCS_METADATA_URL + collectionName;
         ServiceHelper oServicesHelper = new ServiceHelper();
         
         String authenticatedString = getAuthorization();

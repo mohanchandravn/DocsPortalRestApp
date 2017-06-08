@@ -47,7 +47,9 @@ public class FileUploadReponse {
     private String type;
 
     private String version;
-
+    
+    private String errorKey;
+    
     /**
      * @return the errorCode
      */
@@ -270,6 +272,20 @@ public class FileUploadReponse {
      */
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    /**
+     * @return the errorKey
+     */
+    public String getErrorKey() {
+        return errorKey;
+    }
+
+    /**
+     * @param errorKey the errorKey to set
+     */
+    public void setErrorKey(String errorKey) {
+        this.errorKey = errorKey;
     }
 
 }

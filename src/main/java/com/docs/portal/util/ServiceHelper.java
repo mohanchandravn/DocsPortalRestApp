@@ -147,7 +147,7 @@ public class ServiceHelper {
 
         try {
             clientResponse = build.post(ClientResponse.class, entity);
-            if (clientResponse.getStatus() != 200) {
+            if (clientResponse.getStatus() != 200 && clientResponse.getStatus() != 201) {
                 throw new RuntimeException("Failed : HTTP error code : " + clientResponse.getStatus());
             }
             response = clientResponse.getEntity(String.class);

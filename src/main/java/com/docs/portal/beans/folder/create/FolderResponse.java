@@ -17,7 +17,7 @@ public class FolderResponse {
     
     private String errorCode;
 
-    private String childitemsCount;
+    private String childItemsCount;
        
     private CreatedBy createdBy;
 
@@ -56,17 +56,17 @@ public class FolderResponse {
     }
 
     /**
-     * @return the childitemsCount
+     * @return the childItemsCount
      */
-    public String getChilditemsCount() {
-        return childitemsCount;
+    public String getChildItemsCount() {
+        return childItemsCount;
     }
 
     /**
-     * @param childitemsCount the childitemsCount to set
+     * @param childitemsCount the childItemsCount to set
      */
-    public void setChilditemsCount(String childitemsCount) {
-        this.childitemsCount = childitemsCount;
+    public void setChildItemsCount(String childItemsCount) {
+        this.childItemsCount = childItemsCount;
     }
 
     /**

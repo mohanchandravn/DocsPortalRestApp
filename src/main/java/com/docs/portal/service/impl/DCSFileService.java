@@ -21,16 +21,17 @@ import com.sun.jersey.multipart.BodyPart;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.multipart.file.FileDataBodyPart;
 import java.io.IOException;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author nithinn
  */
+@Service("fileService")
 public class DCSFileService extends DocumentService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DCSFileService.class);
@@ -63,9 +64,9 @@ public class DCSFileService extends DocumentService {
             }
             
             // Create metadata collection
-            String collectionName = METADATA_COLLECTION_CUSTOMER_INVOICES + "-" + companyName;
-            String fields = companyName + "," + invoiceNumber;
-            metadataCollectionService.createMetadataCollection(collectionName, fields);
+            String collectionName = METADATA_COLLECTION_CUSTOMER_INVOICES;
+            // String fields = companyName + "," + invoiceNumber;
+            // metadataCollectionService.createMetadataCollection(collectionName, fields);
 
             String folderId = folderService.getFolderIdforUser(companyName);
             // Create a new folder if folder does not exists
@@ -80,16 +81,16 @@ public class DCSFileService extends DocumentService {
             FormDataMultiPart formData = new FormDataMultiPart();
             
             // JSON input parameters
-            String jsonInputParams = "{ \"parentID\" : " + folderId + "}";
+            String jsonInputParams = "{ \"parentID\" : \"" + folderId + "\"}";
             BodyPart inputParamsBodyPart = new BodyPart(jsonInputParams, MediaType.APPLICATION_JSON_TYPE);
             inputParamsBodyPart.setContentDisposition(FormDataContentDisposition.name("jsonInputParameters").build());
             formData.bodyPart(inputParamsBodyPart);
             
             // Metadata values
-            String metadataValues = "{ \"collection\" : " + collectionName + "," +
-                                        METADATA_FIELD_CUSTOMER_NAME + " : " + companyName + "," +
-                                        METADATA_FIELD_INVOICE_NUMBER + " : " + invoiceNumber + 
-                                    "}";
+            String metadataValues = "{ \"collection\" : \"" + collectionName + "\", \"" +
+                                        METADATA_FIELD_CUSTOMER_NAME + "\" : \"" + companyName + "\", \"" +
+                                        METADATA_FIELD_INVOICE_NUMBER + "\" : \"" + invoiceNumber + 
+                                    "\"}";
             BodyPart metadataValuesBodyPart = new BodyPart(metadataValues, MediaType.APPLICATION_JSON_TYPE);
             metadataValuesBodyPart.setContentDisposition(FormDataContentDisposition.name("metadataValues").build());
             formData.bodyPart(metadataValuesBodyPart);
