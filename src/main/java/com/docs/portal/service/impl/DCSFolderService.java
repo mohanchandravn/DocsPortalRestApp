@@ -51,8 +51,6 @@ public class DCSFolderService extends DocumentService {
 
         String responseString = oServicesHelper.executePost(docsURL, headers, MediaType.APPLICATION_JSON_TYPE, jsonInput);
 
-        System.out.println("Output:" + responseString);
-
         ObjectMapper mapper = new ObjectMapper();
         try {
             folderResponse = mapper.readValue(responseString, FolderResponse.class);

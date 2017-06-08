@@ -40,7 +40,7 @@ public abstract class DocumentService {
     protected final static String METADATA_FIELD_INVOICE_NUMBER = "InvoiceNumber";
     protected final static String METADATA_FIELD_INVOICE_DATE = "InvoiceDate";
 
-    protected final static String TEMP_DIR = "D://temp/"; // "/u01/app/oracle/middleware/hexicloud/temp/";
+    protected final static String TEMP_DIR = "D://temp/";
         
     private String dcsUrl = null;
     protected String authorization = null;

@@ -43,8 +43,6 @@ public class DCSMetadataCollectionService extends DocumentService {
 
         String responseString = oServicesHelper.executePost(docsURL, headers, MediaType.APPLICATION_JSON_TYPE, jsonInput);
 
-        System.out.println("Output:" + responseString);
-
         ObjectMapper mapper = new ObjectMapper();
         try {
             metadataCreateResponse = mapper.readValue(responseString, CollectionCreateResponse.class);
@@ -73,8 +71,6 @@ public class DCSMetadataCollectionService extends DocumentService {
         
         String responseString = oServicesHelper.executePost(docsURL, headers, null, "");
 
-        System.out.println("Output:" + responseString);
-
         ObjectMapper mapper = new ObjectMapper();
         try {
             fileCollectionResponse = mapper.readValue(responseString, FileCollectionResponse.class);
@@ -98,8 +94,6 @@ public class DCSMetadataCollectionService extends DocumentService {
         headers.put("Authorization", authenticatedString);
         
         String responseString = oServicesHelper.executePost(docsURL, headers, null, "");
-
-        System.out.println("Output:" + responseString);
 
         ObjectMapper mapper = new ObjectMapper();
         try {
