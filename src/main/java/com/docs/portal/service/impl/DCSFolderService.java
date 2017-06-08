@@ -5,8 +5,10 @@
  */
 package com.docs.portal.service.impl;
 
-import com.docs.portal.beans.search.Item;
-import com.docs.portal.beans.search.SearchResponse;
+import com.docs.portal.beans.folder.create.FolderResponse;
+import com.docs.portal.beans.folder.search.Item;
+import com.docs.portal.beans.folder.search.SearchResponse;
+
 import java.util.HashMap;
 import javax.ws.rs.core.MediaType;
 
@@ -25,10 +27,34 @@ import org.springframework.util.StringUtils;
  */
 public class DCSFolderService extends DocumentService {
 
-    private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DCSFolderService.class);
 
-    public void createFolder() {
-        // TODO
+    public FolderResponse createFolder(String companyName) {
+        
+        FolderResponse folderResponse = null;
+        
+        String docsURL = getDcsUrl() + DCS_FOLDER_URL + "<FOLDER_ID>";
+        ServiceHelper oServicesHelper = new ServiceHelper();
+        
+        String authenticatedString = getAuthorization();
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", authenticatedString);
+        
+        String jsonInput = "{ \"name\" : " + companyName + ",\"description\":\"<DESCRIPTION>\"}";
+
+        String responseString = oServicesHelper.executePost(docsURL, headers, MediaType.APPLICATION_JSON_TYPE, jsonInput);
+
+        System.out.println("Output:" + responseString);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            folderResponse = mapper.readValue(responseString, FolderResponse.class);
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
+        
+        return folderResponse;
     }
 
     public SearchResponse searchFoldersOrFilesWithFullText(String fullText) {
@@ -83,7 +109,7 @@ public class DCSFolderService extends DocumentService {
         try {
             searchResponse = mapper.readValue(responseString, SearchResponse.class);
         } catch (IOException ex) {
-            logger.error(ex.getMessage(), ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
         return searchResponse;
     }
@@ -138,7 +164,7 @@ public class DCSFolderService extends DocumentService {
         try {
             searchResponse = mapper.readValue(responseString, SearchResponse.class);
         } catch (IOException ex) {
-            logger.error(ex.getMessage(), ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
         return searchResponse;
     }

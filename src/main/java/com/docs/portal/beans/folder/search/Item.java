@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.docs.portal.beans.search;
+package com.docs.portal.beans.folder.search;
 
 import com.docs.portal.beans.common.CreatedBy;
 import com.docs.portal.beans.common.ModifiedBy;

@@ -16,7 +16,7 @@ import com.sun.jersey.core.util.Base64;
  */
 public abstract class DocumentService {
 
-    private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentService.class);
 
     // From Environment Variable
     public static final Optional<String> DOCUMENT_CLOUD_SERVICE_USER = Optional.ofNullable(System.getenv("DOCUMENT_CLOUD_SERVICE_USER"));
@@ -28,11 +28,19 @@ public abstract class DocumentService {
     public static final String LOCAL_DOCUMENT_CLOUD_SERVICE_PWD = "extra@4CraWleR";
     public static final String LOCAL_DOCUMENT_CLOUD_SERVICE_URL = "https://documents-usoracleam82569.documents.us2.oraclecloud.com/documents/api/1.1";
 
-    protected final static String DCS_PUBLIC_LINK_URL = "/publiclinks/file/";
-    protected final static String DCS_FILE_URL = "/files";
+    protected final static String DCS_FILE_URL = "/files/";
     protected final static String DCS_FOLDER_URL = "/folders/";
-    protected final static String DCS_APPLINK_URL = "/applinks";
+    protected final static String DCS_METADATA_URL = "/metadata/";
+    protected final static String DCS_PUBLIC_LINK_URL = "/publiclinks/file/";
+    protected final static String DCS_APPLINK_URL = "/applinks/";
+    
+    protected final static String METADATA_COLLECTION_CUSTOMER_INVOICES = "CustomerInvoices";
 
+    protected final static String METADATA_FIELD_CUSTOMER_NAME = "CustomerName";
+    protected final static String METADATA_FIELD_INVOICE_NUMBER = "InvoiceNumber";
+    
+    protected final static String TEMP_DIR = "/u01/app/oracle/middleware/hexicloud/temp/";
+        
     private String dcsUrl = null;
     protected String authorization = null;
 
@@ -42,7 +50,7 @@ public abstract class DocumentService {
             this.setAuthorization(DOCUMENT_CLOUD_SERVICE_USER.orElse(LOCAL_DOCUMENT_CLOUD_SERVICE_USER) + ":" + DOCUMENT_CLOUD_SERVICE_PWD.orElse(LOCAL_DOCUMENT_CLOUD_SERVICE_PWD));
 
         } catch (Exception exp) {
-            logger.error("exp: " + exp.getMessage());
+            LOGGER.error("exp: " + exp.getMessage());
         }
     }
 

@@ -5,7 +5,16 @@
  */
 package com.docs.portal.service.impl;
 
+import com.docs.portal.beans.metadata.create.CollectionCreateResponse;
+import com.docs.portal.beans.metadata.create.FileCollectionResponse;
+import com.docs.portal.beans.metadata.create.FolderCollectionResponse;
 import com.docs.portal.service.DocumentService;
+import com.docs.portal.util.ServiceHelper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,18 +24,86 @@ import org.slf4j.LoggerFactory;
  */
 public class DCSMetadataCollectionService extends DocumentService {
     
-    private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DCSMetadataCollectionService.class);
 
-    public void createMetadataCollection() {
-        // TODO
+    public CollectionCreateResponse createMetadataCollection(String collectionName, String fields) {
+        
+        CollectionCreateResponse metadataCreateResponse = null;
+        
+        String docsURL = getDcsUrl() + DCS_METADATA_URL + collectionName;
+        ServiceHelper oServicesHelper = new ServiceHelper();
+        
+        String authenticatedString = getAuthorization();
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", authenticatedString);
+        
+        String jsonInput = "{ \"fields\" : " + fields + "}";
+
+        String responseString = oServicesHelper.executePost(docsURL, headers, MediaType.APPLICATION_JSON_TYPE, jsonInput);
+
+        System.out.println("Output:" + responseString);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            metadataCreateResponse = mapper.readValue(responseString, CollectionCreateResponse.class);
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
+        
+        return metadataCreateResponse;
     }
     
-    public void assignAMetadataCollectionToAFolder() {
-        // TODO
+    public FileCollectionResponse assignAMetadataCollectionToAFolder(String folderId, String collectionName) {
+        
+        FileCollectionResponse fileCollectionResponse = null;
+
+        String docsURL = getDcsUrl() + DCS_FILE_URL + folderId + DCS_METADATA_URL + collectionName;
+        ServiceHelper oServicesHelper = new ServiceHelper();
+        
+        String authenticatedString = getAuthorization();
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", authenticatedString);
+        
+        String responseString = oServicesHelper.executePost(docsURL, headers, null, "");
+
+        System.out.println("Output:" + responseString);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            fileCollectionResponse = mapper.readValue(responseString, FileCollectionResponse.class);
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
+        
+        return fileCollectionResponse;
     }
     
-    public void assignAMetadataCollectionToAFile() {
-        // TODO
+    public FolderCollectionResponse assignAMetadataCollectionToAFile(String fileId, String collectionName) {
+        
+        FolderCollectionResponse folderCollectionResponse = null;
+
+        String docsURL = getDcsUrl() + DCS_FOLDER_URL + fileId + DCS_METADATA_URL + collectionName;
+        ServiceHelper oServicesHelper = new ServiceHelper();
+        
+        String authenticatedString = getAuthorization();
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", authenticatedString);
+        
+        String responseString = oServicesHelper.executePost(docsURL, headers, null, "");
+
+        System.out.println("Output:" + responseString);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            folderCollectionResponse = mapper.readValue(responseString, FolderCollectionResponse.class);
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage(), ex);
+        }
+        
+        return folderCollectionResponse;
     }
     
 }

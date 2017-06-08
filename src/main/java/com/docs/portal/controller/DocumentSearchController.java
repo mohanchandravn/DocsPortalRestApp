@@ -6,7 +6,7 @@
 package com.docs.portal.controller;
 
 import com.docs.portal.beans.authentication.AuthUser;
-import com.docs.portal.beans.search.SearchResponse;
+import com.docs.portal.beans.folder.search.SearchResponse;
 import com.docs.portal.service.impl.DCSFolderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,13 +27,14 @@ import org.springframework.http.HttpStatus;
 @RestController
 public class DocumentSearchController {
 
-    private static final Logger logger = LoggerFactory.getLogger(DocumentSearchController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentSearchController.class);
 
     @RequestMapping(value = "/docs/search/searchFiles", method = RequestMethod.GET)
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<SearchResponse> searchFiles(@RequestParam(value = "invoiceNumber",
-            required = false) String invoiceNumber, Authentication authentication) throws Exception {
-        logger.info("******* Start of searchFiles() in controller ***********");
+        required = false) String invoiceNumber, Authentication authentication) throws Exception {
+        
+        LOGGER.info("******* Start of searchFiles() in controller ***********");
         AuthUser user = (AuthUser) authentication.getPrincipal();
         DCSFolderService dcfs = new DCSFolderService();
         SearchResponse searchResponse = dcfs.getFilesForUser(user.getCompanyName(), invoiceNumber, null, null, null, null);

@@ -130,7 +130,7 @@ public class ServiceHelper {
         return response;
     }
 
-    public String executePost(String url, HashMap<String, String> headers, String mediaType, String entity) {
+    public String executePost(String url, HashMap<String, String> headers, MediaType mediaType, String entity) {
 
         Client rsclient = this.getClient();
         WebResource webResource = rsclient.resource(url);
