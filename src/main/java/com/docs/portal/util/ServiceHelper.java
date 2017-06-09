@@ -28,7 +28,10 @@ import com.sun.jersey.multipart.FormDataMultiPart;
  * @author nithinar
  */
 public class ServiceHelper {
-
+  
+    public static final String STATUS_SUCCEEDED = "Succeeded";
+    public static final String STATUS_FAILED = "Failed";
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceHelper.class);
 
     public ServiceHelper() {
