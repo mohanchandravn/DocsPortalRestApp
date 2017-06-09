@@ -69,10 +69,10 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
                 || user.getAuthority().replace("ROLE_", "").equalsIgnoreCase(CSC_TYPE))
                 || portalType.equalsIgnoreCase(USER_TYPE) && user.getAuthority().replace("ROLE_", "").equalsIgnoreCase(USER_TYPE)) {
             String jws = tokenHelper.generateToken(user.getUsername());
-            Cookie userCookie = new Cookie(USER_COOKIE, (user.getFirstName()));
-            userCookie.setPath("/");
-            userCookie.setMaxAge(EXPIRES_IN);
-            response.addCookie(userCookie);
+//            Cookie userCookie = new Cookie(USER_COOKIE, (user.getFirstName()));
+//            userCookie.setPath("/");
+//            userCookie.setMaxAge(EXPIRES_IN);
+//            response.addCookie(userCookie);
             AuthUserTokenState userTokenState = null;
             if (portalType.equalsIgnoreCase(USER_TYPE)) {
                 userTokenState = loginService.getPortalUserDetails(user.getUserId(), jws, EXPIRES_IN);
