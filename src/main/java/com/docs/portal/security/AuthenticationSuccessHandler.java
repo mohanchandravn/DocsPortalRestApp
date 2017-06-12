@@ -64,28 +64,28 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
         logger.info("Authentication success, generating the token");
         clearAuthenticationAttributes(request);
         AuthUser user = (AuthUser) authentication.getPrincipal();
-        String portalType = request.getHeader(PORTAL_TYPE);
-        if (portalType.equalsIgnoreCase(ADMIN_TYPE) && (user.getAuthority().replace("ROLE_", "").equalsIgnoreCase(ADMIN_TYPE)
-                || user.getAuthority().replace("ROLE_", "").equalsIgnoreCase(CSC_TYPE))
-                || portalType.equalsIgnoreCase(USER_TYPE) && user.getAuthority().replace("ROLE_", "").equalsIgnoreCase(USER_TYPE)) {
+//        String portalType = request.getHeader(PORTAL_TYPE);
+//        if (portalType.equalsIgnoreCase(ADMIN_TYPE) && (user.getAuthority().replace("ROLE_", "").equalsIgnoreCase(ADMIN_TYPE)
+//                || user.getAuthority().replace("ROLE_", "").equalsIgnoreCase(CSC_TYPE))
+//                || portalType.equalsIgnoreCase(USER_TYPE) && user.getAuthority().replace("ROLE_", "").equalsIgnoreCase(USER_TYPE)) {
             String jws = tokenHelper.generateToken(user.getUsername());
 //            Cookie userCookie = new Cookie(USER_COOKIE, (user.getFirstName()));
 //            userCookie.setPath("/");
 //            userCookie.setMaxAge(EXPIRES_IN);
 //            response.addCookie(userCookie);
             AuthUserTokenState userTokenState = null;
-            if (portalType.equalsIgnoreCase(USER_TYPE)) {
-                userTokenState = loginService.getPortalUserDetails(user.getUserId(), jws, EXPIRES_IN);
-            } else {
-                userTokenState = loginService.getAdminUserDetails(user.getUserId(), jws, EXPIRES_IN, user.getAuthority().replace("ROLE_", "").equalsIgnoreCase(ADMIN_TYPE) ? ADMIN_TYPE : CSC_TYPE);
-            }
+//            if (portalType.equalsIgnoreCase(USER_TYPE)) {
+                userTokenState = loginService.getPortalUserDetails(user.getUserId(), jws, EXPIRES_IN, user.getAuthority().replace("ROLE_", ""));
+//            } else {
+//                userTokenState = loginService.getAdminUserDetails(user.getUserId(), jws, EXPIRES_IN, user.getAuthority().replace("ROLE_", "").equalsIgnoreCase(ADMIN_TYPE) ? ADMIN_TYPE : CSC_TYPE);
+//            }
             ObjectMapper mapper = new ObjectMapper();
             String jwtResponse = mapper.writeValueAsString(userTokenState);
             response.setContentType("application/json");
             response.getWriter().write(jwtResponse);
-        } else {
-            response.setStatus(401);
-            response.getWriter().write(FORBIDDEN_MESSAGE);
-        }
+//        } else {
+//            response.setStatus(401);
+//            response.getWriter().write(FORBIDDEN_MESSAGE);
+//        }
     }
 }

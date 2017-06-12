@@ -21,8 +21,11 @@ public class AuthUserTokenState {
     private String firstName;
     private String lastName;
     private String phone;
+    @JsonIgnore
     private boolean firstLogin;
+    @JsonIgnore
     private boolean changePwd;
+    @JsonIgnore
     private String portalRole;
     private String companyName;
 

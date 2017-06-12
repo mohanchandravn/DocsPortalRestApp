@@ -31,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public AuthUserTokenState getPortalUserDetails(String userName, String accessToken, long expiresIn) {
+    public AuthUserTokenState getPortalUserDetails(String userName, String accessToken, long expiresIn, String role) {
         AuthUserTokenState userTokenState = new AuthUserTokenState();
         PortalUser userDetails = portalUsersDAO.getUser(userName);
 
@@ -40,7 +40,7 @@ public class LoginServiceImpl implements LoginService {
             userTokenState.setExpires_in(expiresIn);
             userTokenState.setUserId(userName);
             userTokenState.setEmail(userDetails.getEmail());
-            userTokenState.setUserRole(userDetails.getUserRole());
+            userTokenState.setUserRole(role);
             userTokenState.setFirstName(userDetails.getFirstName());
             userTokenState.setLastName(userDetails.getLastName());
             userTokenState.setPhone(userDetails.getPhone());
@@ -51,6 +51,7 @@ public class LoginServiceImpl implements LoginService {
             if (StringUtils.isEmpty(userDetails.getPwdLastChanged())) {
                 userTokenState.setChangePwd(true);
             }
+            
         }
 
         portalUsersDAO.updateLastLoggedIn(userName);

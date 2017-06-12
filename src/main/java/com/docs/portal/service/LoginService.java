@@ -16,7 +16,7 @@ public interface LoginService {
 
     public PortalUser getUserDetails(String userName);
 
-    public AuthUserTokenState getPortalUserDetails(String userName, String accessToken, long expiresIn);
+    public AuthUserTokenState getPortalUserDetails(String userName, String accessToken, long expiresIn, String role);
 
     public AuthUserTokenState getAdminUserDetails(String userName, String accessToken, long expiresIn, String portalRole);
 }
