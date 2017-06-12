@@ -176,7 +176,7 @@ public class DCSFolderService extends DocumentService {
     public String getFolderIdforUser(String companyName) {
         String folderId = null;
         SearchResponse foldersResponse = searchFoldersOrFilesWithFullText(companyName);
-        if (null != foldersResponse && foldersResponse.getItems().size() > 0) {
+        if (null != foldersResponse && null != foldersResponse.getItems() && foldersResponse.getItems().size() > 0) {
             for (Item searchItem : foldersResponse.getItems()) {
                 if (searchItem.getType().equalsIgnoreCase("folder")) {
                     folderId = searchItem.getId();

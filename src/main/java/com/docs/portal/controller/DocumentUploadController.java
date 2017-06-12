@@ -5,10 +5,9 @@
  */
 package com.docs.portal.controller;
 
-import com.docs.portal.beans.authentication.AuthUser;
 import com.docs.portal.service.impl.DCSFileService;
+import java.util.Date;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,13 +33,14 @@ public class DocumentUploadController {
 
     @RequestMapping(value = "/docs/upload/uploadFile", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ADMIN')")
-    public String uploadFile(@RequestParam(value = "invoiceNumber", required = false) String invoiceNumber, 
-        MultipartHttpServletRequest multipartHttpServletRequest, Authentication authentication) throws Exception {
+    public String uploadFile(@RequestParam(value = "companyName", required = false) String companyName,
+        @RequestParam(value = "invoiceNumber", required = false) String invoiceNumber, 
+        @RequestParam(value = "invoiceDate", required = false) Date invoiceDate,
+        MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
         
         LOGGER.info("******* Start of uploadFile() in controller ***********");
-        AuthUser user = (AuthUser) authentication.getPrincipal();
         MultipartFile multipartFile = multipartHttpServletRequest.getFile("primaryFile");
-        return dcfs.uploadFile(multipartFile, user.getCompanyName(), invoiceNumber);
+        return dcfs.uploadFile(multipartFile, companyName, invoiceNumber, invoiceDate);
     }
 
 }

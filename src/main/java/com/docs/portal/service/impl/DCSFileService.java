@@ -27,6 +27,8 @@ import com.sun.jersey.multipart.file.FileDataBodyPart;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.springframework.stereotype.Service;
 
 /**
@@ -44,7 +46,7 @@ public class DCSFileService extends DocumentService {
     @Autowired
     DCSMetadataCollectionService metadataCollectionService;
 
-    public String uploadFile(MultipartFile multipartFile, String companyName, String invoiceNumber) {
+    public String uploadFile(MultipartFile multipartFile, String companyName, String invoiceNumber, Date invoiceDate) {
         
         File fileToUpload = null;
         String fileUploadReponse = ServiceHelper.STATUS_FAILED;
@@ -88,9 +90,11 @@ public class DCSFileService extends DocumentService {
                 formData.bodyPart(inputParamsBodyPart);
 
                 // Metadata values
+                SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy"); 
                 String metadataValues = "{ \"collection\" : \"" + collectionName + "\", \"" +
                                             METADATA_FIELD_CUSTOMER_NAME + "\" : \"" + companyName + "\", \"" +
-                                            METADATA_FIELD_INVOICE_NUMBER + "\" : \"" + invoiceNumber + 
+                                            METADATA_FIELD_INVOICE_NUMBER + "\" : \"" + invoiceNumber + "\", \"" + 
+                                            METADATA_FIELD_INVOICE_DATE + "\" : \"" + sdf.format(invoiceDate) + 
                                         "\"}";
                 BodyPart metadataValuesBodyPart = new BodyPart(metadataValues, MediaType.APPLICATION_JSON_TYPE);
                 metadataValuesBodyPart.setContentDisposition(FormDataContentDisposition.name("metadataValues").build());
