@@ -105,7 +105,7 @@ public class DCSFolderService extends DocumentService {
             queryParams.put("querytext", queryText);
         }
         
-        if (!StringUtils.isEmpty(fullText) && !StringUtils.isEmpty(queryText)) {
+        if (StringUtils.isEmpty(fullText) && StringUtils.isEmpty(queryText)) {
             queryParams.put("fulltext", "");
         }
         String responseString = oServicesHelper.executeGet(docsURL, queryParams, headers, MediaType.APPLICATION_JSON);
@@ -193,6 +193,12 @@ public class DCSFolderService extends DocumentService {
         if (null != folderId) {
             filesResponse = searchFoldersOrFilesByFolderId(fullText, limit, offset, orderBy, queryText, folderId);
         }
+        return filesResponse;
+    }
+    
+    public SearchResponse getFilesForAdmin(String fullText, String limit, String offset, String orderBy, String queryText) {
+        SearchResponse filesResponse = null;
+        filesResponse = searchFoldersOrFilesWithFullText(fullText);
         return filesResponse;
     }
 

@@ -24,28 +24,38 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 
 /**
  *
  * @author mohchand
  */
+
+
 @RestController
 public class DocumentSearchController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentSearchController.class);
 
     @RequestMapping(value = "/docs/search/searchFiles", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResponseEntity<SearchResponse> searchFiles(
         @RequestParam(value = "invoiceNumber", required = false) String invoiceNumber,
         Authentication authentication) throws Exception {
 
         LOGGER.info("******* Start of searchFiles() in controller ***********");
+        SearchResponse searchResponse = null;
         AuthUser user = (AuthUser) authentication.getPrincipal();
+        String userRole = user.getAuthority();
         DCSFolderService dcfs = new DCSFolderService();
-        SearchResponse searchResponse = dcfs.getFilesForUser(user.getCompanyName(), invoiceNumber, null, null, null,
-                        null);
+        if (userRole.replace("ROLE_", "").equalsIgnoreCase("ADMIN")) {
+        	searchResponse = dcfs.getFilesForAdmin(invoiceNumber, null, null, null, null);
+        } else {
+        	searchResponse = dcfs.getFilesForUser(user.getCompanyName(), invoiceNumber, null, null, null,
+                    null);
+        }
+
         if (searchResponse == null) {
                 return new ResponseEntity<SearchResponse>(HttpStatus.NO_CONTENT);
         }
@@ -53,7 +63,7 @@ public class DocumentSearchController {
     }
 
     @RequestMapping(value = "/docs/download/downloadDocument", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public void downloadDocument(@RequestParam(value = "fileId", required = true) String fileId,
         @RequestParam(value = "version", required = true) String version, HttpServletResponse response) throws Exception {
         
