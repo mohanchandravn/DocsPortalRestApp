@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,19 +68,21 @@ public class DocumentSearchController {
     public void downloadDocument(@RequestParam(value = "fileId", required = true) String fileId,
         @RequestParam(value = "version", required = true) String version, HttpServletResponse response) throws Exception {
         
-        LOGGER.info("******* Start of searchFiles() in controller ***********");
+        LOGGER.info("******* Start of downloadDocument() in controller ***********");
 
         DCSFileService dcfs = new DCSFileService();
         Map<String, Object> searchResponse = dcfs.downLoadFile(fileId, version);
         String fileName = (String) searchResponse.get("fileName");
         String fileType = (String) searchResponse.get("contentType");
         InputStream inpStr = (InputStream) searchResponse.get("inputStream");
-        response.setContentType(fileType);
+        response.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        response.setHeader("Content-Transfer-Encoding", "binary");
         response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
         org.apache.commons.io.IOUtils.copy(inpStr, response.getOutputStream());
+        inpStr.close();
         response.flushBuffer();
-
-        LOGGER.info("******* End of searchFiles() in controller ***********");
+        response.setStatus(HttpServletResponse.SC_OK);
+        LOGGER.info("******* End of downloadDocument() in controller ***********");
     }
 
 }

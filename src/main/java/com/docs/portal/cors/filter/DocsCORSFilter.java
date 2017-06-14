@@ -39,6 +39,7 @@ public class DocsCORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Portal-Type, Authorization, Accept");
+        response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
         if(!"OPTIONS".equalsIgnoreCase(request.getMethod())) {
